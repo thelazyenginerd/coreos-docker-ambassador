@@ -1,0 +1,9 @@
+[Unit]
+Requires=docker.service
+
+[Service]
+# %n is the name of the unit
+ExecStartPre=-/usr/bin/docker kill %n
+ExecStartPre=-/usr/bin/docker rm %n
+ExecStart=/usr/bin/docker run --rm --publish 5432 --name %n -e POSTGRES_PASSWORD=mysecretpassword -e SERVICE_ID=pg1 postgres:9.4
+ExecStop=/usr/bin/docker stop %n
